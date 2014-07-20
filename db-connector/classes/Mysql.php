@@ -17,6 +17,11 @@ class Mysql extends AbstractSource {
 			$this->dblink = mysql_select_db($params[AbstractSource::DB_NAME]);
 		}
 	}
+	/**
+	 * @see ISource::Execquery()
+	 * @return Array 
+	 * 				- результат как массив значений
+	 */
 	public function Execquery($params=null) {
 		$result = mysql_query($params, $this->clink);
 		if ($result){
@@ -25,6 +30,12 @@ class Mysql extends AbstractSource {
 			return null;
 		}
 	}
+	/**
+	 * Выполнить запрос
+	 * @param String $query
+	 * @return resource|NULL
+	 * 						- mysql result array
+	 */
 	public function exec($query){
 		$result = mysql_query($query, $this->clink);
 		if ($result){
@@ -39,7 +50,7 @@ class Mysql extends AbstractSource {
 		}
 	}
 	/**
-	 * ������� �� query � ������ �������
+	 * Ротация $query в массив значений
 	 * @param mysql_query_result $query
 	 * @return array
 	 */

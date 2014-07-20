@@ -20,13 +20,18 @@ class MysqlDBObject extends AbstractDBObject {
 		}
 	}
 	
-	public function update($where, $propName, $value){
-		$query=sprintf(MysqlDBObject::UPDATE, $this->getName(), $propName."=".$value);
-		return $this->mysql->exec($query.($where!=null?sprintf(MysqlDBObject::WHERE,$where):""));
+	public function __call($method_name,$arguments) {
+	
+		if (method_exists($this, $method_name.count($arguments)) !== true) {
+			$this->$method_name($arguments);
+		}
+	
+		$method_name = $method_name.count($arguments);
+		$this->$method_name($arguments);
 	}
 	/**
-	 * arg[0] - условие поиска
-	 * arg[n..n+1] - имя и значение атрибута
+	 * arg[0] - РЈСЃР»РѕРІРёРµ where
+	 * arg[n..n+1] - РїР°СЂС‹ СЃРІРѕР№СЃС‚РІРѕ, Р·РЅР°С‡РµРЅРёРµ
 	 * @see IDBObject::update()
 	 */
 	public function update() {
@@ -42,7 +47,12 @@ class MysqlDBObject extends AbstractDBObject {
 		return null;
 	}
 	
-	public function delete($where){
+	public function update3($where, $propName, $value){
+		$query=sprintf(MysqlDBObject::UPDATE, $this->getName(), $propName."=".$value);
+		return $this->mysql->exec($query.($where!=null?sprintf(MysqlDBObject::WHERE,$where):""));
+	}
+	
+	public function delete1($where){
 		$query=sprintf(MysqlDBObject::DELETE, $this->name).sprintf(MysqlDBObject::WHERE, $where);
 		return $this->mysql->exec($query);
 	}

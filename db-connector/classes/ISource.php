@@ -2,17 +2,17 @@
 
 interface ISource {
 	/**
-	 * Подключение к источнику данных
+	 * РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р‘Р”
 	 * @param mixed $params
 	 */
 	public function connect($params=null);
 	/**
-	 * Выполнение запроса к источнику данных
+	 * Р’С‹РїРѕР»РЅРёС‚СЊ Р·Р°РїСЂРѕСЃ
 	 * @param mixed $params
 	 */
 	public function Execquery($params=null);
 	/**
-	 * Закрыть соединение с источником данных
+	 * Р—Р°РєСЂС‹С‚СЊ РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р‘Р”
 	 * @param mixed $params
 	 */
 	public function close($params=null);
