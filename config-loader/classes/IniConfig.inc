@@ -1,6 +1,6 @@
 <?php
 
-include_once 'AbstractConfig.php';
+include_once 'AbstractConfig.inc';
 
 class IniConfig extends AbstractConfig {
 	
@@ -42,7 +42,7 @@ class IniConfig extends AbstractConfig {
 		if (file_exists($iniFile)){
 			return true;
 		} else {
-			throw  new Exception("Ini-файл ".$iniFile." не существует");
+			throw  new Exception("Ini-пїЅпїЅпїЅпїЅ ".$iniFile." пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 		}
 	}
 }

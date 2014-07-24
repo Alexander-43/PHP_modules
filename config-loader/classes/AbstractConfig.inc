@@ -1,5 +1,5 @@
 <?php
-include_once 'IConfig.php';
+include_once 'IConfig.inc';
 
 abstract class AbstractConfig implements IConfig {
 	

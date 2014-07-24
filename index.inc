@@ -1,7 +1,7 @@
 <?php
-	include_once 'db-connector/index.php';
-	include_once 'db-object-mgt/index.php';
-	include_once 'config-loader/index.php';
+	include_once 'db-connector/index.inc';
+	include_once 'db-object-mgt/index.inc';
+	include_once 'config-loader/index.inc';
 	$config = new IniConfig("config.ini");
 	$params = array('hostname'=>$config->getValueByKey('db-config.hostname'), 
 			'dbname'=>$config->getValueByKey('db-config.dbname'), 

@@ -1,5 +1,5 @@
 <?php
-include_once 'AbstractSource.php';
+include_once 'AbstractSource.inc';
 
 class Mysql extends AbstractSource {
 	public $dblink = null;

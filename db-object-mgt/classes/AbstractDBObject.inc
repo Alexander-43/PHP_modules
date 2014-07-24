@@ -1,5 +1,5 @@
 <?php
-include_once 'IDBObject.php';
+include_once 'IDBObject.inc';
 
 abstract class AbstractDBObject implements IDBObject {
 	public $name = "";

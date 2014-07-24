@@ -1,5 +1,5 @@
 <?php
-include_once 'ISource.php';
+include_once 'ISource.inc';
 
 abstract class AbstractSource implements ISource {
 	const HOST_NAME = "hostname";

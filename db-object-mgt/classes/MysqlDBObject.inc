@@ -1,5 +1,5 @@
 <?php
-include_once 'AbstractDBObject.php';
+include_once 'AbstractDBObject.inc';
 
 class MysqlDBObject extends AbstractDBObject {
 	public $mysql = null;
