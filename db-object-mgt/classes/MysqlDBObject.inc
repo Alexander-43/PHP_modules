@@ -10,8 +10,8 @@ class MysqlDBObject extends AbstractDBObject {
 	const UPDATE = "UPDATE %s set %s";
 	const WHERE = " where %s";
 	
-	function __construct($name, $qualifier, $dbParams) {
-		$this->mysql = new Mysql($dbParams);
+	function __construct($name, $qualifier, $dbParams, $mysql=null) {
+		$this->mysql = $mysql == null ? new Mysql($dbParams): $mysql;
 		if ($name != null){
 			$this->setName($name);
 		}

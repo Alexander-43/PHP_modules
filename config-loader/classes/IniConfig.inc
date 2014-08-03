@@ -42,7 +42,7 @@ class IniConfig extends AbstractConfig {
 		if (file_exists($iniFile)){
 			return true;
 		} else {
-			throw  new Exception("Ini-���� ".$iniFile." �� ����������");
+			throw  new Exception("Ini-файл ".$iniFile." не существует");
 		}
 	}
 }

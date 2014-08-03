@@ -1,11 +1,11 @@
-<?php
-include_once 'AbstractSource.inc';
-
+<?php include_once 'AbstractSource.inc';
 class Mysql extends AbstractSource {
 	public $dblink = null;
 	public $clink = null;
+	public $params = null;
 	public function __construct($params = null) {
 		if ($params != null){
+			$this->params = $params;
 			$this->connect($params);
 		}
 	}
@@ -16,6 +16,7 @@ class Mysql extends AbstractSource {
 		if ($this->clink){
 			$this->dblink = mysql_select_db($params[AbstractSource::DB_NAME]);
 		}
+		$this->exec('SET NAMES utf8');
 	}
 	/**
 	 * @see ISource::Execquery()
@@ -24,10 +25,10 @@ class Mysql extends AbstractSource {
 	 */
 	public function Execquery($params=null) {
 		$result = mysql_query($params, $this->clink);
-		if ($result){
+		if ($result != false){
 			return $this->getArrayValues($result);
 		} else {
-			return null;
+			return mysql_error();
 		}
 	}
 	/**
@@ -38,10 +39,10 @@ class Mysql extends AbstractSource {
 	 */
 	public function exec($query){
 		$result = mysql_query($query, $this->clink);
-		if ($result){
+		if ($result != false){
 			return $result;
 		}else{
-			return null;
+			return mysql_error();
 		}
 	}
 	public function close($params=null) {

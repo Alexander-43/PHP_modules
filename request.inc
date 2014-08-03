@@ -8,7 +8,11 @@
 	}
 	if ($param['fn']){
 		if (function_exists($param['fn'])){
-			$param['fn']($param);
+			if ($param['print'] == 'true'){
+				print_r($param['fn']($param));
+			} else {
+				$param['fn']($param);
+			}
 		} else {
 			$error = array('status'=>500, 'message'=>'Function '.$param['fn'].' does`t exist');
 		}
