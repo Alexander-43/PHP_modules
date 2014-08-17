@@ -47,6 +47,25 @@ class MysqlDBObject extends AbstractDBObject {
 		return null;
 	}
 	
+	public function update2($data, $key){
+		$where = "";
+		$set = array();
+		foreach ($data as $field=>$value){
+			if ($key != null && $field==$key){
+				$where = sprintf(MysqlDBObject::WHERE, $field."=".$value);
+			} else {
+				$set[] = $field."='".$value."'";
+			}
+		}
+		$query = sprintf(MysqlDBObject::UPDATE, $this->name, implode(",", $set)).$where;
+		$res = $this->mysql->exec($query);
+		if (mysql_affected_rows() == 0){
+			return array("status"=>500, "message"=>"Ошибка изменеия - ".mysql_error());
+		} else {
+			return array("status"=>200, "message"=>"Обновлено ".mysql_affected_rows()." записей.");
+		}
+	}
+	
 	public function update3($where, $propName, $value){
 		$query=sprintf(MysqlDBObject::UPDATE, $this->getName(), $propName."=".$value);
 		return $this->mysql->exec($query.($where!=null?sprintf(MysqlDBObject::WHERE,$where):""));
@@ -60,8 +79,24 @@ class MysqlDBObject extends AbstractDBObject {
 	public function delete() {
 		return "Not implemented";
 	}
-	public function create() {
-		return "Not implemented";
+	public function create($data = null, $key = null) {
+		$fields = array();
+		$values = array();
+		foreach ($data as $field=>$value){
+			$fields[] = $field;
+			if (($key != null && $field==$key) || ($field == MysqlDBObject::ID_NAME && $key==null)){
+				$values[] = null;
+			} else {
+				$values[] = "'".$value."'";
+			}
+		}
+		$query = sprintf(MysqlDBObject::CREATE, $this->name, implode(",", $fields), implode(",", $values));
+		$this->mysql->exec($query);
+		if (mysql_insert_id() == 0){
+			return array("status"=>"500", "message"=>"Ошибка создания - ".mysql_error());
+		} else {
+			return array("status"=>200, "message"=>"Создан элемент с ID=".mysql_insert_id());
+		}
 	}
 }
 
