@@ -59,10 +59,10 @@ class MysqlDBObject extends AbstractDBObject {
 		}
 		$query = sprintf(MysqlDBObject::UPDATE, $this->name, implode(",", $set)).$where;
 		$res = $this->mysql->exec($query);
-		if (mysql_affected_rows() == 0){
-			return array("status"=>500, "message"=>"Ошибка изменеия - ".mysql_error());
+		if (mysql_affected_rows() == -1){
+			return $this->makeResult(500, "Ошибка изменения - ".mysql_error());
 		} else {
-			return array("status"=>200, "message"=>"Обновлено ".mysql_affected_rows()." записей.");
+			return $this->makeResult(200, "Обновлено ".mysql_affected_rows()." записей.");
 		}
 	}
 	
@@ -79,6 +79,24 @@ class MysqlDBObject extends AbstractDBObject {
 	public function delete() {
 		return "Not implemented";
 	}
+	
+	public function delete2($data, $key){
+		$where = "";
+		if ($key != null && $data[$key] != null){
+			$where = sprintf(MysqlDBObject::WHERE, $key."=".$data[$key]);
+			$query = sprintf(MysqlDBObject::DELETE, $this->name).$where;
+		}
+		if ($key == 'ALL'){
+			$query = sprintf(MysqlDBObject::DELETE, $this->name);
+		}
+		$res = $this->mysql->exec($query);
+		if (mysql_affected_rows() == -1){
+			return $this->makeResult(500, "Ошибка удаления - ".mysql_error());
+		} else {
+			return $this->makeResult(200, "Удалено ".mysql_affected_rows()." записей.");
+		}
+	}
+	
 	public function create($data = null, $key = null) {
 		$fields = array();
 		$values = array();
@@ -93,9 +111,9 @@ class MysqlDBObject extends AbstractDBObject {
 		$query = sprintf(MysqlDBObject::CREATE, $this->name, implode(",", $fields), implode(",", $values));
 		$this->mysql->exec($query);
 		if (mysql_insert_id() == 0){
-			return array("status"=>"500", "message"=>"Ошибка создания - ".mysql_error());
+			return $this->makeResult(500, "Ошибка создания - ".mysql_error());
 		} else {
-			return array("status"=>200, "message"=>"Создан элемент с ID=".mysql_insert_id());
+			return $this->makeResult(200, "Создан элемент с ID=".mysql_insert_id());
 		}
 	}
 }
