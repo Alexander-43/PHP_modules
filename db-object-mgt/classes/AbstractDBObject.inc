@@ -14,7 +14,7 @@ abstract class AbstractDBObject implements IDBObject {
 	}
 	
 	public function setQualifier ($qualifier) {
-		$this->qualifier;
+		$this->qualifier = $qualifier;
 	}
 	
 	public function getQualifier(){
@@ -23,6 +23,10 @@ abstract class AbstractDBObject implements IDBObject {
 	
 	public function makeResult($code, $message){
 		return array("status"=>$code, "message"=>$message);
+	}
+	
+	public function getVars(){
+		return get_class_vars(get_class());
 	}
 }
 

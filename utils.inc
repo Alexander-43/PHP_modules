@@ -45,5 +45,19 @@ class Utils {
 		}
 		return Utils::$mysqlObject;
 	}
+	
+	public static function getPropsFromIniConfig(&$object, $config){
+		$vars = $object->getVars();
+		$configSection = get_class($object);
+		foreach ($vars as $name=>$value){
+			$methodname = strtolower("set".$name);
+			$objectMethods = get_class_methods($object);
+			foreach($objectMethods as $methname){
+				if (strtolower($methname) == $methodname && $config->getValueByKey($configSection.".".$name)!=null){
+					$object->$methname($config->getValueByKey($configSection.".".$name));
+				}
+			}
+		}
+	}
 }
 ?>
