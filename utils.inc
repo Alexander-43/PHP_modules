@@ -47,7 +47,7 @@ class Utils {
 	}
 	
 	public static function getPropsFromIniConfig(&$object, $config){
-		$vars = $object->getVars();
+		$vars = $object->getVars(null);
 		$configSection = get_class($object);
 		foreach ($vars as $name=>$value){
 			$methodname = strtolower("set".$name);

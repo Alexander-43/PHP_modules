@@ -25,8 +25,12 @@ abstract class AbstractDBObject implements IDBObject {
 		return array("status"=>$code, "message"=>$message);
 	}
 	
-	public function getVars(){
-		return get_class_vars(get_class());
+	public function getVars($vars){
+		$curVars = get_class_vars(get_class());
+		if ($vars != null){
+			$curVars = array_merge($vars, $curVars);
+		}
+		return $curVars;
 	}
 }
 

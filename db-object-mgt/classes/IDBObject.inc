@@ -16,6 +16,11 @@ interface IDBObject {
 	 * Обновление свойств объекта
 	 */
 	public function update();
+	
+	/**
+	 * Получение свойств объекта
+	 */
+	public function getVars($vars);
 }
 
 ?>

@@ -116,6 +116,11 @@ class MysqlDBObject extends AbstractDBObject {
 			return $this->makeResult(200, "Создан элемент с ID=".mysql_insert_id());
 		}
 	}
+	
+	public function getVars($vars){
+		$curVars = get_class_vars(get_class());
+		return parent::getVars($curVars);
+	}
 }
 
 ?>
