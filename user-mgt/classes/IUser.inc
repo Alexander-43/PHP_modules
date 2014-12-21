@@ -11,6 +11,14 @@ interface IUser {
 	private $password;
 	private $permissions;
 	private $avatar;
+	
+	/**
+	 * Создание нового пользователя
+	 * @param unknown $props
+	 * 						- массив свойств
+	 */
+	private function create($props);
+	
 	/**
 	 * Задать логин
 	 */

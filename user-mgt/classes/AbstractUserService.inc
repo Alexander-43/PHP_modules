@@ -1,11 +1,11 @@
 <?php
 
-include_once 'IUserService.php';
+include_once 'IUserService.inc';
 
 abstract class AbstractUserService implements IUserService {
 	
 	public $config = null;
-	public $connection = null;
+	public $mysql = null;
 	public $tablename = null;
 	
 	public function create(){
@@ -21,18 +21,28 @@ abstract class AbstractUserService implements IUserService {
 	}
 	public function setPermission($params) {
 	}
-	public function getAllUsers($params) {
+	
+	public function setTableName($tablename){
+		$this->tablename = $tablename;
 	}
 	
-	public function setConnection($connection){
-		$this->connection = $connection;
+	public function getTableName(){
+		return $this->tablename;
+	}
+	
+	public function setMysql($mysql){
+		$this->mysql = $mysql;
 	}
 	
 	public function setConfig($config){
 		$this->config;
 	}
 	public function getVars(){
-		return get_class_vars($this);
+		$curVars = get_class_vars(get_class());
+		if ($vars != null){
+			$curVars = array_merge($vars, $curVars);
+		}
+		return $curVars;
 	}
 }
 

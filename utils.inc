@@ -46,6 +46,13 @@ class Utils {
 		return Utils::$mysqlObject;
 	}
 	
+	/**
+	 * Запонить атрибуты из конфига для которы есть сеттеры
+	 * @param unknown $object
+	 * 						- обеъект для которого происходит поиск свойств
+	 * @param unknown $config
+	 * 						- конфиг, из которго берутся свойства
+	 */
 	public static function getPropsFromIniConfig(&$object, $config){
 		$vars = $object->getVars(null);
 		$configSection = get_class($object);
