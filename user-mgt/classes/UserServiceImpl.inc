@@ -4,16 +4,18 @@ include_once 'AbstractUserService.inc';
 
 class UserServiceImpl extends AbstractUserService {
 	
-	const GET_ALL = "SELECT * from %s ";
-	const WHERE = "WHERE %s";
-	
 	public function getAllUsers($params) {
-		$query = sprintf($this::GET_ALL, $this->getTableName());
+		$query = sprintf(Utils::GET_ALL, $this->getTableName());
 		$result = $this->mysql->Execquery($query);
-		/*for($i=0;$i<count($result);++$i){
-			
-		}*/
-		return result;
+		$obj = array();
+		foreach($result as $index=>$props){
+			$obj[] = new User($props);
+		}
+		return $obj;
+	}
+	
+	public function getVars($vars =NULL){
+		return parent::getVars(get_class_vars(get_class()));
 	}
 }
 

@@ -6,20 +6,11 @@ abstract class AbstractUserService implements IUserService {
 	
 	public $config = null;
 	public $mysql = null;
-	public $tablename = null;
+	public $tablename = "users";
 	
 	public function create(){
 		$inst = new self();
 		return $inst;
-	}
-	
-	public function doLogout($id) {
-	}
-	public function createUser($params) {
-	}
-	public function doLogin($params) {
-	}
-	public function setPermission($params) {
 	}
 	
 	public function setTableName($tablename){
@@ -37,12 +28,28 @@ abstract class AbstractUserService implements IUserService {
 	public function setConfig($config){
 		$this->config;
 	}
-	public function getVars(){
+	public function getVars($vars = NULL){
 		$curVars = get_class_vars(get_class());
 		if ($vars != null){
 			$curVars = array_merge($vars, $curVars);
 		}
 		return $curVars;
+	}
+	
+	public function doLogout($id){
+	
+	}
+	
+	public function doLogin($params){
+	
+	}
+	
+	public function setPermission($params){
+	
+	}
+	
+	public function createUser($params){
+	
 	}
 }
 

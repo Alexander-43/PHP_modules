@@ -1,5 +1,9 @@
 <?php 
 class Utils {
+	
+	const GET_ALL = "SELECT * from %s ";
+	const WHERE = "WHERE %s";
+	
 	public static $iniConfigObject = null;
 	public static $mysqlObject = null;
 	/**
@@ -47,7 +51,7 @@ class Utils {
 	}
 	
 	/**
-	 * Запонить атрибуты из конфига для которы есть сеттеры
+	 * Заполнить атрибуты из конфига для которы есть сеттеры
 	 * @param unknown $object
 	 * 						- обеъект для которого происходит поиск свойств
 	 * @param unknown $config
@@ -65,6 +69,74 @@ class Utils {
 				}
 			}
 		}
+	}
+	/**
+	 * Создание объекта и заполнение его свойств из массива значений
+	 * @param unknown $props
+	 * 						- массив значений членов класса
+	 * @param unknown $className
+	 * 						- имя класса объекта
+	 * @param unknown $func
+	 * 						- метод создания экземпляра
+	 * @return mixed|NULL
+	 * 						- созданный объект или ничего 
+	 */
+	public static function getClassInstance($props, $className, $func){
+		$inst = call_user_func(array($className, $func));
+		if ($inst !== false){
+			if (is_array($props) && method_exists($inst, "getVars")){
+				$vars = array_keys($inst->getVars());
+				$methods = get_class_methods($inst);
+				foreach ($vars as $var){
+					if ($props[$var] != null){
+						$methodName = strtolower("set".$var);
+						foreach ($methods as $method){
+							if (strtolower($method) == $methodName){
+								$inst->$method($props[$var]);
+							}
+						}
+					}
+				}
+			}
+			return $inst;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Установить значение переменной в сессию
+	 * @param String $name
+	 * 						- имя переменной
+	 * @param String $value
+	 * 						- зачение
+	 */
+	public static function setToSession($name, $value){
+		$_SESSION[$name] = $value;
+	}
+	
+	/**
+	 * Получение переменной из сессии
+	 * @param String $name
+	 * 						- имя переменной
+	 * @param Object $default
+	 * 						- дефолтное значение 
+	 */
+	public static function getFromSession($name, $default){
+		$val = $_SESSION[$name];
+		if (!isset($val)){
+			if (isset($default)){
+				return $default;
+			} else {
+				return null;
+			}
+		} else {
+			return $val;
+		}
+	}
+	
+	public static function unsetFromSession($name){
+		unset($_SESSION[$name]);
 	}
 }
 ?>

@@ -6,23 +6,17 @@ interface IUser {
 	const PASSWORD = "password";
 	const AVATAR = "avatar";
 	
-	private $id;
-	private $login;
-	private $password;
-	private $permissions;
-	private $avatar;
-	
 	/**
 	 * Создание нового пользователя
 	 * @param unknown $props
 	 * 						- массив свойств
 	 */
-	private function create($props);
+	public function create($props);
 	
 	/**
 	 * Задать логин
 	 */
-	private function setLogin($login);
+	public function setLogin($login);
 	/**
 	 * Получить логин
 	 */
@@ -30,9 +24,11 @@ interface IUser {
 	/**
 	 * Задать пароль
 	 * @param String $password
-	 * 							- шифрованая строка пароля
+	 * 							- строка пароля
+	 * @param boolean $encrypt
+	 * 							- шифровать
 	 */
-	private function setPassword($password);
+	public function setPassword($password, $encrypt);
 	/**
 	 * Получить шифрованую строку пароля
 	 */

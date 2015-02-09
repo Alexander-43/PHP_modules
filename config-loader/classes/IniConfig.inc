@@ -21,14 +21,22 @@ class IniConfig extends AbstractConfig {
 		foreach ($keys as $key){
 			if ($item == null){
 				if (!is_array($values[$key])){
-					$parse = parse_ini_string($values[$key], true);
+					if (strpos($values[$key], "{") === false){
+						$parse = parse_ini_string($values[$key], true);
+					} else {
+						$parse = json_decode($values[$key], true);
+					}
 				} else {
 					$parse = false;
 				}
 				$item = is_array($parse) && count($parse)>0 ? $parse: $values[$key];
 			} else {
 				if (!is_array($item[$key])){
-					$parse = parse_ini_string($item[$key], true);
+					if (strpos($item[$key], "{") === false){
+						$parse = parse_ini_string($item[$key], true);
+					} else {
+						$parse = json_decode($item[$key], true);
+					}
 				} else {
 					$parse = false;
 				}

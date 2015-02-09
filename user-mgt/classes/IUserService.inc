@@ -34,8 +34,10 @@ interface IUserService {
 	
 	/**
 	 * Получение списка полей класса
+	 * @param Array $vars
+	 * 					- массив переменных из дочернего класса 
 	 */
-	public function getVars();
+	public function getVars($vars = NULL);
 }
 
 ?>
