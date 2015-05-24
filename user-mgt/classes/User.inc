@@ -2,13 +2,15 @@
 
 include_once 'IUser.inc';
 
-class User implements IUser {
+class User extends AbstractDbPersistableImpl implements IUser {
 	
 	private $id;
 	private $login;
 	private $password;
 	private $permissions;
 	private $avatar;
+	private $token;
+	private $tablename = "users";
 	
 	public function __construct($props){
 		$this->setLogin($props['login']);
@@ -48,6 +50,12 @@ class User implements IUser {
 		return $this->id;
 	}
 	public function getPermission() {
+	}
+	public function setToken($value){
+		$this->token = $value;
+	}
+	public function getToken(){
+		return $this->token;
 	}
 }
 

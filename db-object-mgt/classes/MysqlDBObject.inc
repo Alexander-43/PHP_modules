@@ -10,7 +10,7 @@ class MysqlDBObject extends AbstractDBObject {
 	const UPDATE = "UPDATE %s set %s";
 	const WHERE = " where %s";
 	
-	function __construct($name, $qualifier, $dbParams, $mysql=null) {
+	function __construct($name = null, $qualifier = null, $dbParams = null, $mysql=null) {
 		$this->mysql = $mysql == null ? new Mysql($dbParams): $mysql;
 		if ($name != null){
 			$this->setName($name);
@@ -76,7 +76,7 @@ class MysqlDBObject extends AbstractDBObject {
 		return $this->mysql->exec($query);
 	}
 	
-	public function delete() {
+	public function delete($params) {
 		return "Not implemented";
 	}
 	
@@ -117,8 +117,15 @@ class MysqlDBObject extends AbstractDBObject {
 		}
 	}
 	
-	public function getVars($vars){
+	public function setMysql($value){
+		$this->mysql = $value;
+	}
+	
+	public function getVars($vars = null){
 		$curVars = get_class_vars(get_class());
+		if ($vars != null){
+			$curVars = array_merge($vars, $curVars);
+		}
 		return parent::getVars($curVars);
 	}
 }

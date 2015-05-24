@@ -10,7 +10,7 @@ interface IDBObject {
 	/**
 	 * Удаление объекта
 	 */
-	public function delete();
+	public function delete($params);
 	
 	/**
 	 * Обновление свойств объекта

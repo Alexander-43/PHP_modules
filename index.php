@@ -27,11 +27,19 @@
 	
 	$obj = new UserServiceImpl();
 	$obj->setMysql($msql);
-	Utils::getPropsFromIniConfig($obj, $config);
+	Utils::setMySqlObject($msql);
+/*	Utils::getPropsFromIniConfig($obj, $config);
 	$arr = $obj->getAllUsers(null);
 	$_SESSION['mysql'] = $msql;
 	unset($_SESSION['arr']);
-	print_r($_SESSION);
+	print_r($_SESSION);*/
+	$obj = Utils::getClassInstance(Array("userId"=>"999", "expDate"=>time(true), "token"=>'null'), "Token", "createInstance");
+	$obj->setMysql($msql);
+	/*$obj->setToken(null);
+	$res = $obj->save(Array('id'=> 1));*/
+	$obj->setUserId('9019');
+	$res = $obj->save();
+	print_r($obj);
 ?>
 <form name="f1" method="post" action="#">
 	<input name="query" type="text" value="<?php print $_POST['query'];?>">

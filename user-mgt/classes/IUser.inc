@@ -54,7 +54,14 @@ interface IUser {
 	 * Уникальный Id пользователя
 	 */
 	public function getId();
-	
+	/**
+	 * Задать токен
+	 */
+	public function setToken($value);
+	/**
+	 * Получить токен
+	 */
+	public function getToken();
 }
 
 ?>

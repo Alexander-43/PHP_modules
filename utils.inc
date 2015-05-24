@@ -2,10 +2,19 @@
 class Utils {
 	
 	const GET_ALL = "SELECT * from %s ";
+	const INSERT = "INSERT INTO %s(%s) VALUES (%s) ";
+	const UPDATE = "UPDATE %s set %s ";
+	const DELETE = "DELETE from %s ";
 	const WHERE = "WHERE %s";
+	const DATE_FORMAT = "Y-m-d H:i:s";
 	
 	public static $iniConfigObject = null;
 	public static $mysqlObject = null;
+	
+	public static function setMySqlObject($value){
+		self::$mysqlObject = $value;
+	}
+	
 	/**
 	 * Возвращает объект ini-config
 	 * @param String $filePath
@@ -72,27 +81,36 @@ class Utils {
 	}
 	/**
 	 * Создание объекта и заполнение его свойств из массива значений
-	 * @param unknown $props
+	 * @param Array $props
 	 * 						- массив значений членов класса
-	 * @param unknown $className
+	 * @param String $className
 	 * 						- имя класса объекта
-	 * @param unknown $func
+	 * @param String $func
 	 * 						- метод создания экземпляра
+	 * @param Object $inst
+	 * 						- экземпляр класса если объект уже создан
 	 * @return mixed|NULL
 	 * 						- созданный объект или ничего 
 	 */
-	public static function getClassInstance($props, $className, $func){
-		$inst = call_user_func(array($className, $func));
-		if ($inst !== false){
+	public static function getClassInstance($props, $className, $func, &$inst = null){
+		if ($inst == null){
+			$inst = call_user_func(array($className, $func));
+		}
+		if ($inst != null && $inst !== false){
 			if (is_array($props) && method_exists($inst, "getVars")){
 				$vars = array_keys($inst->getVars());
 				$methods = get_class_methods($inst);
 				foreach ($vars as $var){
-					if ($props[$var] != null){
+					if ($props[$var] != null || $props[$var] == 'null'){
 						$methodName = strtolower("set".$var);
 						foreach ($methods as $method){
 							if (strtolower($method) == $methodName){
-								$inst->$method($props[$var]);
+								if ($props[$var] == 'null'){
+									$inst->$method(null);
+								} else {
+									$inst->$method($props[$var]);
+								}
+								continue;
 							}
 						}
 					}
@@ -135,6 +153,11 @@ class Utils {
 		}
 	}
 	
+	/**
+	 * Удаление переменной из сессии
+	 * @param String $name
+	 * 						- имя переменной для удаления
+	 */
 	public static function unsetFromSession($name){
 		unset($_SESSION[$name]);
 	}

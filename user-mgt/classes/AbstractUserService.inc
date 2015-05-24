@@ -6,7 +6,6 @@ abstract class AbstractUserService implements IUserService {
 	
 	public $config = null;
 	public $mysql = null;
-	public $tablename = "users";
 	
 	public function create(){
 		$inst = new self();
@@ -34,6 +33,16 @@ abstract class AbstractUserService implements IUserService {
 			$curVars = array_merge($vars, $curVars);
 		}
 		return $curVars;
+	}
+	
+	public function getAllUsers($params) {
+		$query = sprintf(Utils::GET_ALL, $this->getTableName());
+		$result = $this->mysql->Execquery($query);
+		$obj = array();
+		foreach($result as $index=>$props){
+			$obj[] = new User($props);
+		}
+		return $obj;
 	}
 	
 	public function doLogout($id){
