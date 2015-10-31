@@ -1,6 +1,9 @@
 <?php
 
 interface IDbPersistable {
+	
+	const PROP_ID = "id";
+	
 	/**
 	 * Получить таблицу в которой сохранятся объект
 	 */

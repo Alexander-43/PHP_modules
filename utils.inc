@@ -161,5 +161,30 @@ class Utils {
 	public static function unsetFromSession($name){
 		unset($_SESSION[$name]);
 	}
+	
+	/**
+	 * Найти объект по уникальному значению поля
+	 * 
+	 */
+	const PROP_TABLE_NAME = 'tableName';
+	const PROP_UNIC_FIELD_NAME = 'unicFieldName';
+	const PROP_UNIC_FIELD_VALUE = 'unicFieldValue';
+	public static function findUnicObject($props, $returnAll = false){
+		$select = sprintf(Utils::GET_ALL, $props[Utils::PROP_TABLE_NAME]);
+		$isNull = $props[Utils::PROP_UNIC_FIELD_VALUE] == null ? ' IS NULL':'='.$props[Utils::PROP_UNIC_FIELD_VALUE];
+		$where = sprintf(Utils::WHERE, ''.$props[Utils::PROP_UNIC_FIELD_NAME].$isNull);
+		$res = Utils::$mysqlObject->Execquery($select.$where);
+		if(Utils::$mysqlObject->getLastError() != null){
+			throw new ErrorException("Can`t get object from ".$props[Utils::PROP_TABLE_NAME].". Error:".Utils::$mysqlObject->getLastError());
+		}
+		if ($returnAll && count($res) > 0){
+			return $res;
+		}
+		if (count($res) == 0){
+			return false;
+		} else {
+			return $res[0][$props[Utils::PROP_UNIC_FIELD_NAME]];
+		}
+	}
 }
 ?>

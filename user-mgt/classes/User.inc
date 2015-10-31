@@ -11,13 +11,37 @@ class User extends AbstractDbPersistableImpl implements IUser {
 	private $avatar;
 	private $token;
 	private $tablename = "users";
+	private $persistedFields = Array(
+			'login'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>''),
+			'password'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>''),
+			'permissions'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>'')
+	);
 	
 	public function __construct($props){
-		$this->setLogin($props['login']);
-		$this->id = $props['id'];
-		$this->setPassword($props['password'], false);
-		$this->setAvatar($props['avatar']);
-	} 
+		$this->setLogin($props[IUser::PROP_LOGIN]);
+		$this->id = $props[IDbPersistable::PROP_ID];
+		$this->setPassword($props[IUser::PROP_PASSWORD], false);
+		$this->setAvatar($props[IUser::PROP_AVATAR]);
+	}
+	
+	public static function createInstance(){
+		$inst = new self();
+		return $inst;
+	}
+	
+	public function isExists($className){
+		$props = array(Utils::PROP_TABLE_NAME=>$this->getTableName(),
+				Utils::PROP_UNIC_FIELD_NAME=>IDbPersistable::PROP_ID,
+				Utils::PROP_UNIC_FIELD_VALUE=>$this->getId()
+		);
+		Utils::setMySqlObject($this->mysql);
+		$res = Utils::findUnicObject($props);
+		if ($res !== false && count($res) > 0){
+			return $res[0][IDbPersistable::PROP_ID];
+		} else {
+			return false;
+		}
+	}
 	
 	public function create($props) {
 	}
@@ -39,23 +63,47 @@ class User extends AbstractDbPersistableImpl implements IUser {
 	public function setAvatar($avatar) {
 		$this->avatar = $avatar;
 	}
-	function setPassword($password, $encrypt) {
+	function setPassword($password, $encrypt = false) {
 		if ($encrypt){
 			$this->password = md5($password);
 		} else {
 			$this->password = $password;
 		}
 	}
+	
 	public function getId() {
 		return $this->id;
 	}
+	
+	public function setId($value) {
+		$this->id = $value;
+	}
+	
 	public function getPermission() {
 	}
+	
 	public function setToken($value){
 		$this->token = $value;
 	}
+	
 	public function getToken(){
 		return $this->token;
+	}
+	
+	public function getTableName(){
+		return $this->tablename;
+	}
+	
+	public function setTableName($value){
+		$this->tablename = $value;
+	}
+	
+	public function getPersistedFields(){
+		return $this->persistedFields;
+	}
+	
+	public function getVars($vars =NULL){
+		return parent::getVars(get_class_vars(get_class()));
 	}
 }
 

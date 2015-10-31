@@ -6,6 +6,7 @@ abstract class AbstractUserService implements IUserService {
 	
 	public $config = null;
 	public $mysql = null;
+	public $loginControllers;
 	
 	public function create(){
 		$inst = new self();
@@ -45,12 +46,12 @@ abstract class AbstractUserService implements IUserService {
 		return $obj;
 	}
 	
-	public function doLogout($id){
-	
+	public function doLogout($params){
+		throw new ErrorException("Must be overrided.");
 	}
 	
 	public function doLogin($params){
-	
+		throw new ErrorException("Must be overrided.");
 	}
 	
 	public function setPermission($params){
@@ -58,7 +59,18 @@ abstract class AbstractUserService implements IUserService {
 	}
 	
 	public function createUser($params){
+		$newUser = new User($params);
+		$newUser->setMysql($this->mysql);
+		$newUser->save();
+		return $newUser;
+	}
 	
+	public function setLoginControllers($value){
+		$this->loginControllers = $value;
+	}
+	
+	public function getLoginControllers(){
+		return $this->loginControllers;
 	}
 }
 

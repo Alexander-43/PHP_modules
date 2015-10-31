@@ -100,7 +100,7 @@ class Token extends AbstractDbPersistableImpl {
 		if (count($res) == 0){
 			return false;
 		} else {
-			return $res[0]['id'];
+			return $res[0][IDbPersistable::PROP_ID];
 		}
 	}
 }

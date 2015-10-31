@@ -27,6 +27,7 @@
 	
 	$obj = new UserServiceImpl();
 	$obj->setMysql($msql);
+	$obj->createUser(array("login"=>"test_login", "password"=>md5("12345"), "id"=>null));
 	Utils::setMySqlObject($msql);
 /*	Utils::getPropsFromIniConfig($obj, $config);
 	$arr = $obj->getAllUsers(null);
@@ -37,7 +38,7 @@
 	$obj->setMysql($msql);
 	/*$obj->setToken(null);
 	$res = $obj->save(Array('id'=> 1));*/
-	$obj->setUserId('9019');
+	$obj->setUserId('9010');
 	$res = $obj->save();
 	print_r($obj);
 ?>

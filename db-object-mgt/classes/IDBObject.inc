@@ -5,7 +5,7 @@ interface IDBObject {
 	/**
 	 * Создание объекта
 	 */
-	public function create();
+	public function create($props);
 	
 	/**
 	 * Удаление объекта

@@ -21,16 +21,21 @@ interface IUserService {
 	 * Войти пользователем
 	 * @param Object $params
 	 * 					- параметры пользователя для входа
+	 * @return вернем пользователя и его токен по: 
+	 * <ol>
+	 * <li>логин + пароль</li>
+	 * <li>id</li>
+	 * <li>token</li>
+	 * </ol>
 	 */
 	public function doLogin($params);
 	
 	/**
 	 * Выйти пользователем
-	 * @param String $id
-	 * 					- id пользователя для logout`a
-
+	 * @param String $params
+	 * 					- параметры пользователя для logout`a
 	 */
-	public function doLogout($id);
+	public function doLogout($params);
 	
 	/**
 	 * Получение списка полей класса

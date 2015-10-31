@@ -21,13 +21,16 @@ abstract class AbstractDbPersistableImpl extends MysqlDBObject implements IDbPer
 			if ($exists === false){
 				$q = $this->generateInsert();
 				$this->mysql->exec($q);
+				if ($this->mysql->getLastError() != null){
+					throw new ErrorException("Error for execute insert ".$q.". ERROR:".$this->mysql->getLastError());
+				}
 				$this->getById(array('id'=>mysql_insert_id()));
 				return $this;
 			} else {
 				$this->getById(array('id'=>$exists));
 				$this->save();
 			}
-		} else if (count($obj == 1)){
+		} else if (count($obj) == 1){
 			$q = $this->generateUpdate();
 			$this->mysql->exec($q);
 			return mysql_affected_rows();

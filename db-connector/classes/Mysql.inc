@@ -3,6 +3,7 @@ class Mysql extends AbstractSource {
 	public $dblink = null;
 	public $clink = null;
 	public $params = null;
+	private $lastError;
 	public function __construct($params = null) {
 		if ($params != null){
 			$this->params = $params;
@@ -24,11 +25,13 @@ class Mysql extends AbstractSource {
 	 * 				- результат как массив значений
 	 */
 	public function Execquery($params=null) {
+		$this->lastError = null;
 		$result = mysql_query($params, $this->clink);
 		if ($result != false){
 			return $this->getArrayValues($result);
 		} else {
-			return mysql_error();
+			$this->lastError = mysql_error();
+			return array();
 		}
 	}
 	/**
@@ -38,11 +41,13 @@ class Mysql extends AbstractSource {
 	 * 						- mysql result array
 	 */
 	public function exec($query){
+		$this->lastError = null;
 		$result = mysql_query($query, $this->clink);
 		if ($result != false){
 			return $result;
 		}else{
-			return mysql_error();
+			$this->lastError = mysql_error();
+			return array();
 		}
 	}
 	public function close($params=null) {
@@ -70,6 +75,10 @@ class Mysql extends AbstractSource {
 			$values[] = $line;
 		}
 		return $values;
+	}
+	
+	public function getLastError(){
+		return $this->lastError;
 	}
 }
 

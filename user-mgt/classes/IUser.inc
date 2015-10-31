@@ -1,10 +1,9 @@
 <?php
 
 interface IUser {
-	const ID = "id";
-	const LOGIN = "login";
-	const PASSWORD = "password";
-	const AVATAR = "avatar";
+	const PROP_LOGIN = "login";
+	const PROP_PASSWORD = "password";
+	const PROP_AVATAR = "avatar";
 	
 	/**
 	 * Создание нового пользователя
