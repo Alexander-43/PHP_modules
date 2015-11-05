@@ -1,7 +1,7 @@
 <?php
 include_once 'IDBObject.inc';
 
-abstract class AbstractDBObject implements IDBObject {
+abstract class AbstractDBObject extends AbstractMysql implements IDBObject {
 	public $name = "";
 	public $qualifier = "";
 	

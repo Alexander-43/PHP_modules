@@ -1,7 +1,6 @@
 <?php
 
 include_once 'AbstractUserService.inc';
-include_once 'ILoginController.inc';
 
 class UserServiceImpl extends AbstractUserService {
 	
