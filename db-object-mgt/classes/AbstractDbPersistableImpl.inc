@@ -84,7 +84,7 @@ abstract class AbstractDbPersistableImpl extends MysqlDBObject implements IDbPer
 	 * @return string
 	 * 					- команда INSERT в MySQL нотации
 	 */
-	public function generateInsert(){
+	private function generateInsert(){
 		$fv = $this->getValuesForFields($this->getPersistedFields());
 		$f = '';
 		$v = '';
@@ -100,7 +100,7 @@ abstract class AbstractDbPersistableImpl extends MysqlDBObject implements IDbPer
 	 * @return string
 	 * 					- команда UPDATE в MySQL нотации
 	 */
-	public function generateUpdate(){
+	private function generateUpdate(){
 		$fv = $this->getValuesForFields($this->getPersistedFields());
 		$set = '';
 		foreach ($this->getPersistedFields() as $key=>$value){
@@ -109,7 +109,7 @@ abstract class AbstractDbPersistableImpl extends MysqlDBObject implements IDbPer
 		return sprintf(Utils::UPDATE, $this->getTableName(), $set).' '.sprintf(Utils::WHERE, 'id='.$this->getId());
 	}
 	
-	public function generateDelete(){
+	private function generateDelete(){
 		$delete = sprintf(Utils::DELETE, $this->getTableName());
 		$where = sprintf(Utils::WHERE, 'id='.$this->getId());
 		return $delete.$where;

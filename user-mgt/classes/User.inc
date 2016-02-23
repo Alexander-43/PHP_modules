@@ -14,7 +14,8 @@ class User extends AbstractDbPersistableImpl implements IUser {
 	private $persistedFields = Array(
 			'login'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>''),
 			'password'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>''),
-			'permissions'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>'')
+			'permissions'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>''),
+			'token'=>Array('type'=>'string', 'format'=>"'%s'", 'default'=>'')
 	);
 	
 	public function __construct($props){
